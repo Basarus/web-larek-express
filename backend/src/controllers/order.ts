@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { faker } from '@faker-js/faker';
 import BadRequestError from '../errors/badRequestError';
-import InternalServerError from '../errors/internalServerError';
 import Product from '../models/product';
 
 export default async function createOrder(req: Request, res: Response, next: NextFunction) {
@@ -25,6 +24,6 @@ export default async function createOrder(req: Request, res: Response, next: Nex
       total: calculatedTotal,
     });
   } catch (error) {
-    return next(new InternalServerError());
+    return next();
   }
 }

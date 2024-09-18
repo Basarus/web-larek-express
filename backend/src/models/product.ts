@@ -1,11 +1,13 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+export interface IFile {
+  fileName: string;
+  originalName: string;
+}
+
 interface IProduct extends Document {
   title: string;
-  image: {
-    fileName: string;
-    originalName: string;
-  };
+  image: IFile;
   category: string;
   description?: string;
   price?: number | null;

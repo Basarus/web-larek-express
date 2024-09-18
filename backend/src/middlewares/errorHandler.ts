@@ -1,7 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 
+interface ICustomError extends Error {
+  statusCode?: number;
+}
+
 const errorHandler = (
-  error: Error & { statusCode?: number },
+  error: ICustomError,
   _req: Request,
   res: Response,
   _next: NextFunction,

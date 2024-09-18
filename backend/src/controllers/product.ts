@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import Product from '../models/product';
 import ConflictError from '../errors/conflictError';
 import BadRequestError from '../errors/badRequestError';
-import InternalServerError from '../errors/internalServerError';
 
-export const getAllProducts = async (_req: Request, res: Response): Promise<void> => {
+export const getAllProducts = async (_req: Request, res: Response, next: NextFunction):
+ Promise<void> => {
   try {
     const products = await Product.find();
     res.status(200).json({
@@ -12,7 +12,7 @@ export const getAllProducts = async (_req: Request, res: Response): Promise<void
       total: products.length,
     });
   } catch (error: any) {
-    res.status(500).json({ message: 'Ошибка при получении товаров', error: error.message });
+    next();
   }
 };
 
@@ -44,7 +44,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
       return next(new BadRequestError('Ошибка валидации данных при создании товара'));
     }
 
-    return next(new InternalServerError());
+    return next();
   }
 };
 

@@ -4,7 +4,7 @@
   "description": "< Добавьте описание проекта в свободной форме >",
   "main": "dist/app.js",
   "scripts": {
-    "lint": "npx eslint src/**/*.ts",
+    "lint": "npx eslint src/**/*.ts --fix",
     "build": "tsc",
     "dev": "npx nodemon -L src/app.ts ",
     "start": "ts-node src/app.ts",
@@ -28,11 +28,15 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.0",
+    "celebrate": "^15.0.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-validator": "^7.2.0",
     "express-winston": "^4.2.0",
+    "helmet": "^7.1.0",
+    "joi": "^17.13.3",
     "mongoose": "^8.6.2",
+    "nodemon": "^3.1.5",
     "winston": "^3.14.2"
   }
 }

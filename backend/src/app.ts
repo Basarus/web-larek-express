@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
+import helmet from 'helmet';
+import { errors } from 'celebrate';
 import cors from 'cors';
 
 import errorHandler from './middlewares/errorHandler';
@@ -17,7 +19,7 @@ const app = express();
 app.use(express.json());
 
 app.use(requestLogger);
-
+app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
@@ -32,7 +34,7 @@ app.use((_req, _res, next) => {
 });
 
 app.use(errorLogger);
-
+app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT);
