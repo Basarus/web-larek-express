@@ -24,6 +24,6 @@ export default async function createOrder(req: Request, res: Response, next: Nex
       total: calculatedTotal,
     });
   } catch (error) {
-    return next();
+    return next(error);
   }
 }

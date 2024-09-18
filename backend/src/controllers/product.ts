@@ -48,7 +48,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export async function getProductById(req: Request, res: Response) {
+export async function getProductById(req: Request, res: Response, next: NextFunction) {
   try {
     const product = await Product.findById(req.params.id);
 
@@ -66,6 +66,6 @@ export async function getProductById(req: Request, res: Response) {
       price: product.price,
     });
   } catch (error: any) {
-    res.status(500).json({ message: 'Ошибка при получении товара', error: error.message });
+    next(new Error('Ошибка при получении товара'));
   }
 }
