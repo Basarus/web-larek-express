@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
+import NotFoundError from '../errors/notFoundError';
 import Product from '../models/product';
 import ConflictError from '../errors/conflictError';
 import BadRequestError from '../errors/badRequestError';
 
 export const getAllProducts = async (_req: Request, res: Response, next: NextFunction):
- Promise<void> => {
+  Promise<void> => {
   try {
     const products = await Product.find();
     res.status(200).json({
@@ -12,7 +13,7 @@ export const getAllProducts = async (_req: Request, res: Response, next: NextFun
       total: products.length,
     });
   } catch (error: any) {
-    next();
+    next(error);
   }
 };
 
@@ -44,7 +45,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
       return next(new BadRequestError('Ошибка валидации данных при создании товара'));
     }
 
-    return next();
+    return next(error);
   }
 };
 
@@ -53,11 +54,10 @@ export async function getProductById(req: Request, res: Response, next: NextFunc
     const product = await Product.findById(req.params.id);
 
     if (!product) {
-      res.status(404).json({ message: 'Товар не найден' });
-      return;
+      return next(new NotFoundError('Товар не найден'));
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       id: product._id,
       description: product.description,
       image: product.image.fileName,
@@ -66,6 +66,6 @@ export async function getProductById(req: Request, res: Response, next: NextFunc
       price: product.price,
     });
   } catch (error: any) {
-    next(new Error('Ошибка при получении товара'));
+    return next(error);
   }
 }
